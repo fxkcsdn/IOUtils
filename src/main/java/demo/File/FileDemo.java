@@ -1,10 +1,13 @@
 package demo.File;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class FileDemo {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
 //        // 文件路径（相对、绝对）、文件分隔符（不同环境）、文件名编码
 //        File file=new File("D:\\file\\a.txt");
@@ -45,6 +48,10 @@ public class FileDemo {
 //        File file6=new File("test/c/b/d");
 //        boolean result6 = file6.delete();
 //        System.out.println(result6);
+        // -------------------jvm退出时删除-------------
+//        File file9=new File("test/c/b/e.txt");
+//        file9.deleteOnExit();
+//        Thread.sleep(10000);
         // ------------------新建文件-----------------------
 //        File file7=new File("test/c/b");
 //        File txt = File.createTempFile("2222/dddd", ".txt", file7);
@@ -52,9 +59,36 @@ public class FileDemo {
 //        File file8=new File("test/c/b/e.txt");
 //        boolean result8 = file8.createNewFile();
 //        System.out.println(result8);
-        // -------------------判断文件还是目录-------------
-        File file9=new File("test/c/b/e.txt");
-        System.out.println(file9.isFile());
+        //---------------------列表查询-------------------
+//        // 如果不是目录或者目录为空，则返回null
+//        File file9=new File("test/c/b");
+//        String[] files = file9.list();
+//        System.out.println(Arrays.asList(files).toString());
+//        // 文件过滤
+//        String[] files2 = file9.list(new FilenameFilter() {
+//            @Override
+//            public boolean accept(File dir, String name) {
+//                if (name.endsWith(".txt")) {
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//        System.out.println(Arrays.asList(files2).toString());
+//        File[] files3 = file9.listFiles(new FileFilter() {
+//            @Override
+//            public boolean accept(File pathname) {
+//                return pathname.getName().endsWith(".txt");
+//            }
+//        });
+//        System.out.println(Arrays.asList(files3).toString());
+        // ----------------操作权限-----------------------------
+        File file10=new File("test/c/b/e.txt");
+        System.out.println("file10.canRead()"+file10.canRead()+":file10.canExecute()"+file10.canExecute()+
+                ":file10.canWrite()"+file10.canWrite());
+        file10.setExecutable(false,false);
+        System.out.println("file10.canRead()"+file10.canRead()+":file10.canExecute()"+file10.canExecute()+
+                ":file10.canWrite()"+file10.canWrite());
 
     }
 }
