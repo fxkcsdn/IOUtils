@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class FileDemo {
-    public static void main(String[] args) throws IOException, InterruptedException {
+//    public static void main(String[] args) throws IOException, InterruptedException {
 
 //        // 文件路径（相对、绝对）、文件分隔符（不同环境）、文件名编码
 //        File file=new File("D:\\file\\a.txt");
@@ -83,12 +83,36 @@ public class FileDemo {
 //        });
 //        System.out.println(Arrays.asList(files3).toString());
         // ----------------操作权限-----------------------------
-        File file10=new File("test/c/b/e.txt");
-        System.out.println("file10.canRead()"+file10.canRead()+":file10.canExecute()"+file10.canExecute()+
-                ":file10.canWrite()"+file10.canWrite());
-        file10.setExecutable(false,false);
-        System.out.println("file10.canRead()"+file10.canRead()+":file10.canExecute()"+file10.canExecute()+
-                ":file10.canWrite()"+file10.canWrite());
+//        File file10=new File("test/c/b/e.txt");
+//        System.out.println("file10.canRead()"+file10.canRead()+":file10.canExecute()"+file10.canExecute()+
+//                ":file10.canWrite()"+file10.canWrite());
+//        file10.setExecutable(false,false);
+//        System.out.println("file10.canRead()"+file10.canRead()+":file10.canExecute()"+file10.canExecute()+
+//                ":file10.canWrite()"+file10.canWrite());
+//        file10.setLastModified(1611670442000L);
 
+
+//    }
+
+    public static void listFileContainName(String path, final String str) {
+        File file = new File(path);
+        String[] files = file.list(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                //在Java中，方法的局部变量位于栈上，对象位于堆上。
+                //因为局部变量的范围被限制在该方法内，当一个方法结束时，栈结构被删除，该变量消失。
+                //但是，定义在这个类中的内部类对象仍然存活在堆上，所以内部类对象不能使用局部变量。除非这些局部变量被标识为最终的。
+                return name.contains(str);
+            }
+        });
+        //Arrays.sort(files, String.CASE_INSENSITIVE_ORDER);
+        System.out.println(Arrays.asList(files).toString());
     }
+
+    public static void main(String[] args) {
+        listFileContainName("test/c/b","txt");
+    }
+
+
+
 }
