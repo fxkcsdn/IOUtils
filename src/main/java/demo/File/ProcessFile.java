@@ -32,17 +32,32 @@ public class ProcessFile {
         this.strategy=strategy;
     }
 
-    public void start(String path){
-
+    public void start(String path) throws IOException {
+        File file=new File(path);
+        if(file.isDirectory()){
+            processDirectoryTree(file);
+        }else{
+            String filePath=path+"."+ext;
+            strategy.process(new File(filePath).getCanonicalFile());
+        }
     }
 
-    public void processDirectoryTree(File file) throws IOException {
+    public void processDirectoryTree(File root) throws IOException {
         // 获取目录树，与处理策略分离
-        for(File item:FileUtils.walk(file.getAbsolutePath(), ".*\\."+ext)){
+        for(File item:FileUtils.walk(root.getAbsolutePath(), ".*\\."+ext)){
             strategy.process(item.getCanonicalFile());
         }
     }
 
+    public static void main(String[] args) throws IOException {
+        // 查找修改时间在2021-1-29 13:00之后的文件
+        new ProcessFile("txt", new Strategy() {
+            public void process(File file) {
+                if(file.lastModified()>1611896400000L)
+                System.out.println(file.getName());
+            }
+        }).start("test");
+    }
 
 
 }
